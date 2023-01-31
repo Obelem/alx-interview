@@ -4,11 +4,10 @@
 
 def canUnlockAll(boxes):
     '''0-lockboxes.py'''
-    opened_boxes = set([0])
-    keys = boxes[0]
+    opened = {0}
+    keys = [b for b in boxes[0] if b not in opened]
     while keys:
         key = keys.pop()
-        if key not in opened_boxes:
-            opened_boxes.add(key)
-            keys += boxes[key]
-    return len(opened_boxes) == len(boxes)
+        opened.add(key)
+        keys.extend([b for b in boxes[key] if b not in opened])
+    return len(opened) == len(boxes)
