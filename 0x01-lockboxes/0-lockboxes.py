@@ -1,13 +1,34 @@
 #!/usr/bin/python3
-'''0-lockboxes.py'''
+
+""" Lockboxes """
 
 
 def canUnlockAll(boxes):
-    '''0-lockboxes.py'''
-    opened = {0}
-    keys = [b for b in boxes[0] if b not in opened]
-    while keys:
-        key = keys.pop()
-        opened.add(key)
-        keys.extend([b for b in boxes[key] if b not in opened])
-    return len(opened) == len(boxes)
+    """
+    - boxes is a list of lists
+    - A key with the same number as a box opens that box
+    - You can assume all keys will be positive integers
+    - The first box boxes[0] is unlocked
+    - Return True if all boxes can be opened, else return False
+    """
+    canUnlockAll = False
+    keys = {0: True}
+    n_boxes = len(boxes)
+    while (True):
+
+        n_keys = len(keys)
+
+        for i in range(len(boxes)):
+            if boxes[i] and keys.get(i, False):
+                for j in boxes[i]:
+                    if j < n_boxes:
+                        keys[j] = True
+                    boxes[i] = None
+
+        if not (len(keys) > n_keys):
+            break
+
+    if n_keys == len(boxes):
+        canUnlockAll = True
+
+    return canUnlockAll
